@@ -93,115 +93,68 @@ export class GameScene extends Phaser.Scene {
 
   private drawOfficeBackground() {
     const back = this.add.graphics();
-    back.fillStyle(0xf5f0e8, 1);
+    back.fillGradientStyle(0xf8f1df, 0xf8f1df, 0xe9dfd2, 0xe9dfd2, 1);
     back.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-    back.fillStyle(0xe9dfd2, 1);
-    back.fillRect(0, 650, GAME_WIDTH, 194);
 
     this.skylineLayer = this.add.container(0, 0);
-    const skyline = this.add.graphics();
-    skyline.fillStyle(0xc9e4ef, 1);
-    skyline.fillRoundedRect(26, 112, 338, 164, 18);
-    skyline.fillStyle(0xa8bdcc, 0.38);
-    [48, 82, 116, 178, 214, 254, 306, 334].forEach((x, index) => {
-      const width = 20 + (index % 3) * 7;
-      const height = 44 + (index % 4) * 15;
-      skyline.fillRoundedRect(x, 252 - height, width, height, 4);
-      skyline.fillStyle(0xf5f0e8, 0.26);
-      skyline.fillRect(x + 5, 258 - height, 4, Math.max(12, height - 18));
-      skyline.fillStyle(0xa8bdcc, 0.38);
+    const windows = this.add.graphics();
+    windows.fillStyle(0xcfe9f4, 1);
+    windows.fillRoundedRect(38, 120, 314, 150, 18);
+    windows.lineStyle(4, 0xfffbef, 0.9);
+    windows.strokeRoundedRect(38, 120, 314, 150, 18);
+    windows.lineBetween(143, 120, 143, 270);
+    windows.lineBetween(248, 120, 248, 270);
+    windows.lineBetween(38, 195, 352, 195);
+    windows.fillStyle(0x91a8bd, 0.42);
+    [60, 94, 168, 204, 286, 318].forEach((x, i) => {
+      windows.fillRoundedRect(x, 218 - (i % 3) * 16, 24 + (i % 2) * 12, 52 + (i % 3) * 14, 4);
     });
-    this.skylineLayer.add(skyline);
+    this.skylineLayer.add(windows);
 
     this.officeLayer = this.add.container(0, 0);
     const office = this.add.graphics();
+    office.fillStyle(0xdccdbb, 1);
+    office.fillRect(0, 635, GAME_WIDTH, 209);
+    office.fillStyle(0xcab9a7, 0.45);
+    for (let y = 668; y < GAME_HEIGHT; y += 34) office.fillRect(0, y, GAME_WIDTH, 2);
 
-    // Back wall windows and trim.
-    office.lineStyle(5, 0xfffbef, 0.95);
-    office.strokeRoundedRect(26, 112, 338, 164, 18);
-    office.lineStyle(3, 0xfffbef, 0.85);
-    office.lineBetween(139, 112, 139, 276);
-    office.lineBetween(251, 112, 251, 276);
-    office.lineBetween(26, 194, 364, 194);
-    office.fillStyle(0xd8cec2, 1);
-    office.fillRoundedRect(0, 286, GAME_WIDTH, 8, 4);
-    office.fillRoundedRect(0, 636, GAME_WIDTH, 10, 5);
-
-    // Ceiling lights kept high and soft so the gameplay lane stays readable.
-    office.fillStyle(0xffffff, 0.74);
-    office.fillRoundedRect(62, 58, 86, 10, 5);
-    office.fillRoundedRect(242, 58, 86, 10, 5);
-    office.fillStyle(0xf0d8a6, 0.18);
-    office.fillEllipse(105, 77, 112, 38);
-    office.fillEllipse(285, 77, 112, 38);
-
-    // Carpet floor with low-contrast grid.
-    office.fillStyle(0xd9d0c3, 1);
-    office.fillRect(0, 650, GAME_WIDTH, 194);
-    office.lineStyle(2, 0xcbbfb1, 0.45);
-    for (let y = 678; y < GAME_HEIGHT; y += 34) office.lineBetween(0, y, GAME_WIDTH, y);
-    for (let x = 26; x < GAME_WIDTH; x += 54) office.lineBetween(x, 650, x - 36, GAME_HEIGHT);
-
-    // Side cubicles and desks frame the clean center play lane.
-    office.fillStyle(0xd5d9dc, 1);
-    office.fillRoundedRect(14, 344, 112, 86, 9);
-    office.fillRoundedRect(268, 326, 108, 88, 9);
-    office.fillStyle(0xc4cbd0, 1);
-    office.fillRoundedRect(22, 352, 96, 10, 5);
-    office.fillRoundedRect(276, 334, 92, 10, 5);
-    office.fillStyle(0xd7b98f, 1);
-    office.fillRoundedRect(24, 414, 96, 16, 8);
-    office.fillRoundedRect(278, 398, 88, 16, 8);
-    office.fillStyle(0x46515c, 0.78);
-    office.fillRoundedRect(50, 378, 36, 24, 4);
-    office.fillRoundedRect(304, 360, 36, 24, 4);
-    office.fillStyle(0x9bd4e3, 0.85);
-    office.fillRoundedRect(55, 383, 26, 14, 2);
-    office.fillRoundedRect(309, 365, 26, 14, 2);
-    office.fillStyle(0x4f5963, 0.68);
-    office.fillRoundedRect(92, 424, 38, 42, 13);
-    office.fillRoundedRect(244, 408, 40, 42, 13);
-
-    // Office props placed at the edges.
+    // Muted cubicles, desks, chairs, monitors, cooler, plants, poster, and cabinet.
+    office.fillStyle(0xd8c8b4, 1);
+    office.fillRoundedRect(214, 330, 138, 82, 8);
+    office.fillRoundedRect(20, 370, 118, 76, 8);
+    office.fillStyle(0xbfae9c, 1);
+    office.fillRoundedRect(224, 394, 118, 16, 8);
+    office.fillRoundedRect(28, 434, 104, 14, 7);
+    office.fillStyle(0x3f4f60, 0.75);
+    office.fillRoundedRect(248, 350, 38, 24, 4);
+    office.fillRoundedRect(58, 391, 34, 22, 4);
+    office.fillStyle(0x68798b, 0.7);
+    office.fillRoundedRect(292, 376, 42, 44, 12);
+    office.fillRoundedRect(96, 414, 38, 42, 12);
     office.fillStyle(0xaed8e6, 1);
-    office.fillRoundedRect(20, 282, 32, 70, 10);
-    office.fillStyle(0xf8fdff, 0.94);
-    office.fillCircle(36, 292, 16);
-    office.fillStyle(0x8ac49a, 1);
-    office.fillRoundedRect(328, 282, 10, 38, 5);
-    office.fillCircle(317, 289, 13);
-    office.fillCircle(340, 287, 13);
-    office.fillCircle(331, 276, 11);
-    office.fillStyle(0xc89667, 1);
-    office.fillRoundedRect(319, 318, 28, 18, 5);
-    office.fillStyle(0xd78373, 1);
-    office.fillRoundedRect(70, 288, 74, 50, 6);
-    office.fillStyle(0xfff7e7, 1);
-    office.fillRoundedRect(76, 294, 62, 38, 4);
-    office.fillStyle(0x6f7d86, 0.8);
-    office.fillRect(87, 307, 42, 4);
+    office.fillRoundedRect(22, 282, 32, 72, 10);
+    office.fillStyle(0xf6fbff, 0.92);
+    office.fillCircle(38, 292, 16);
+    office.fillStyle(0x88b58f, 1);
+    office.fillRoundedRect(322, 285, 10, 38, 5);
+    office.fillCircle(314, 291, 13);
+    office.fillCircle(337, 287, 12);
+    office.fillStyle(0xd16f5e, 1);
+    office.fillRoundedRect(72, 288, 74, 50, 6);
+    office.fillStyle(0xfff5dc, 1);
+    office.fillRoundedRect(78, 294, 62, 38, 4);
+    office.fillStyle(0x1a0a2e, 0.6);
+    office.fillRect(88, 307, 42, 4);
     office.fillRect(94, 318, 30, 4);
-    office.fillStyle(0xa7b0b7, 1);
-    office.fillRoundedRect(306, 470, 54, 112, 8);
-    office.lineStyle(2, 0x87939b, 0.82);
-    office.lineBetween(306, 506, 360, 506);
-    office.lineBetween(306, 544, 360, 544);
-    office.fillStyle(0x74818a, 0.82);
-    office.fillRoundedRect(328, 488, 10, 3, 2);
-    office.fillRoundedRect(328, 526, 10, 3, 2);
-    office.fillRoundedRect(328, 564, 10, 3, 2);
-
-    // Foreground office shapes stay low and muted behind gameplay.
-    office.fillStyle(0xd7b98f, 0.9);
-    office.fillRoundedRect(184, 704, 188, 42, 12);
-    office.fillStyle(0x46515c, 0.38);
-    office.fillRoundedRect(218, 674, 42, 38, 12);
-    office.fillRoundedRect(300, 674, 42, 38, 12);
-    office.fillStyle(0xd5d9dc, 0.85);
-    office.fillRoundedRect(204, 596, 144, 58, 10);
-    office.fillStyle(0xc4cbd0, 0.95);
-    office.fillRoundedRect(214, 605, 124, 10, 5);
-
+    office.fillStyle(0x9daeb9, 1);
+    office.fillRoundedRect(302, 456, 56, 112, 8);
+    office.lineStyle(2, 0x7f909b, 0.8);
+    office.lineBetween(302, 492, 358, 492);
+    office.lineBetween(302, 530, 358, 530);
+    office.fillStyle(0x71818c, 0.8);
+    office.fillRoundedRect(326, 474, 10, 3, 2);
+    office.fillRoundedRect(326, 512, 10, 3, 2);
+    office.fillRoundedRect(326, 550, 10, 3, 2);
     this.officeLayer.add(office);
   }
 
