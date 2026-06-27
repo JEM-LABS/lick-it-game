@@ -93,238 +93,167 @@ export class GameScene extends Phaser.Scene {
 
   private drawOfficeBackground() {
     const back = this.add.graphics();
-    back.fillGradientStyle(0xfaf4e8, 0xfaf4e8, 0xeee4d8, 0xeee4d8, 1);
+    back.fillGradientStyle(0xf8f1df, 0xf8f1df, 0xe9dfd2, 0xe9dfd2, 1);
     back.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
     this.skylineLayer = this.add.container(0, 0);
-    const skyline = this.add.graphics();
-    skyline.fillStyle(0xcbe7f2, 1);
-    skyline.fillRoundedRect(18, 100, 354, 190, 22);
-    skyline.fillStyle(0x93aabd, 0.42);
-    const buildings = [
-      [38, 218, 28, 72], [72, 196, 34, 94], [112, 232, 24, 58], [148, 208, 38, 82],
-      [198, 184, 44, 106], [250, 224, 30, 66], [292, 198, 36, 92], [334, 232, 24, 58],
-    ];
-    buildings.forEach(([x, y, w, h]) => {
-      skyline.fillRoundedRect(x, y, w, h, 5);
-      skyline.fillStyle(0xf7f1e8, 0.28);
-      for (let wy = y + 10; wy < y + h - 8; wy += 16) skyline.fillRect(x + 7, wy, w - 14, 3);
-      skyline.fillStyle(0x93aabd, 0.42);
+    const windows = this.add.graphics();
+    windows.fillStyle(0xcfe9f4, 1);
+    windows.fillRoundedRect(38, 120, 314, 150, 18);
+    windows.lineStyle(4, 0xfffbef, 0.9);
+    windows.strokeRoundedRect(38, 120, 314, 150, 18);
+    windows.lineBetween(143, 120, 143, 270);
+    windows.lineBetween(248, 120, 248, 270);
+    windows.lineBetween(38, 195, 352, 195);
+    windows.fillStyle(0x91a8bd, 0.42);
+    [60, 94, 168, 204, 286, 318].forEach((x, i) => {
+      windows.fillRoundedRect(x, 218 - (i % 3) * 16, 24 + (i % 2) * 12, 52 + (i % 3) * 14, 4);
     });
-    this.skylineLayer.add(skyline);
+    this.skylineLayer.add(windows);
 
     this.officeLayer = this.add.container(0, 0);
     const office = this.add.graphics();
+    office.fillStyle(0xdccdbb, 1);
+    office.fillRect(0, 635, GAME_WIDTH, 209);
+    office.fillStyle(0xcab9a7, 0.45);
+    for (let y = 668; y < GAME_HEIGHT; y += 34) office.fillRect(0, y, GAME_WIDTH, 2);
 
-    // Window frames, wall trim, and ceiling lights.
-    office.lineStyle(6, 0xffffff, 0.96);
-    office.strokeRoundedRect(18, 100, 354, 190, 22);
-    office.lineStyle(3, 0xffffff, 0.86);
-    office.lineBetween(106, 100, 106, 290);
-    office.lineBetween(195, 100, 195, 290);
-    office.lineBetween(284, 100, 284, 290);
-    office.lineBetween(18, 195, 372, 195);
-    office.fillStyle(0xd9cfc2, 1);
-    office.fillRoundedRect(0, 304, GAME_WIDTH, 9, 4);
-    office.fillRoundedRect(0, 632, GAME_WIDTH, 12, 6);
-    office.fillStyle(0xffffff, 0.82);
-    office.fillRoundedRect(46, 50, 104, 12, 6);
-    office.fillRoundedRect(240, 50, 104, 12, 6);
-    office.fillStyle(0xf4d991, 0.18);
-    office.fillEllipse(98, 76, 140, 52);
-    office.fillEllipse(292, 76, 140, 52);
-
-    // Carpet floor with perspective lines.
-    office.fillStyle(0xd6cfc2, 1);
-    office.fillRect(0, 644, GAME_WIDTH, 200);
-    office.lineStyle(2, 0xc8bcaf, 0.5);
-    for (let y = 676; y < GAME_HEIGHT; y += 34) office.lineBetween(0, y, GAME_WIDTH, y);
-    for (let x = -10; x < GAME_WIDTH + 30; x += 52) office.lineBetween(x, 644, x - 42, GAME_HEIGHT);
-
-    // Rear cubicle banks and desks are pushed to the sides so the target lane remains clean.
-    office.fillStyle(0xd6dbdf, 1);
-    office.fillRoundedRect(8, 342, 126, 100, 12);
-    office.fillRoundedRect(258, 326, 124, 102, 12);
-    office.fillStyle(0xc1c9cf, 1);
-    office.fillRoundedRect(20, 352, 102, 12, 6);
-    office.fillRoundedRect(270, 336, 100, 12, 6);
-    office.fillStyle(0xdabf91, 1);
-    office.fillRoundedRect(24, 418, 100, 18, 9);
-    office.fillRoundedRect(274, 402, 96, 18, 9);
-    office.fillStyle(0x3f4b56, 0.82);
-    office.fillRoundedRect(50, 382, 38, 25, 5);
-    office.fillRoundedRect(304, 364, 38, 25, 5);
-    office.fillStyle(0x9cd8e9, 0.9);
-    office.fillRoundedRect(56, 387, 26, 14, 3);
-    office.fillRoundedRect(310, 369, 26, 14, 3);
-    office.fillStyle(0x515b65, 0.72);
-    office.fillRoundedRect(92, 426, 42, 46, 14);
-    office.fillRoundedRect(238, 410, 44, 46, 14);
-    office.fillStyle(0x303941, 0.5);
-    office.fillRoundedRect(102, 464, 22, 8, 4);
-    office.fillRoundedRect(248, 448, 24, 8, 4);
-
-    // Edge props: water cooler, plants, poster, and filing cabinet.
-    office.fillStyle(0xaed9e8, 1);
-    office.fillRoundedRect(20, 282, 34, 72, 11);
-    office.fillStyle(0xf9feff, 0.95);
-    office.fillCircle(37, 292, 17);
-    office.fillStyle(0x7db48b, 1);
-    office.fillRoundedRect(328, 282, 10, 38, 5);
-    office.fillCircle(316, 290, 14);
-    office.fillCircle(340, 286, 14);
-    office.fillCircle(331, 275, 12);
-    office.fillStyle(0xc9905f, 1);
-    office.fillRoundedRect(318, 318, 30, 20, 5);
-    office.fillStyle(0xcf7566, 1);
-    office.fillRoundedRect(69, 284, 78, 54, 7);
-    office.fillStyle(0xfff9e8, 1);
-    office.fillRoundedRect(76, 291, 64, 40, 5);
-    office.fillStyle(0x6b7780, 0.82);
-    office.fillRect(88, 305, 42, 4);
-    office.fillRect(95, 317, 30, 4);
-    office.fillStyle(0xa5afb7, 1);
-    office.fillRoundedRect(306, 470, 56, 116, 9);
-    office.lineStyle(2, 0x87939b, 0.85);
-    office.lineBetween(306, 508, 362, 508);
-    office.lineBetween(306, 546, 362, 546);
-    office.fillStyle(0x74818a, 0.85);
-    office.fillRoundedRect(330, 490, 10, 3, 2);
-    office.fillRoundedRect(330, 528, 10, 3, 2);
-    office.fillRoundedRect(330, 566, 10, 3, 2);
-
-    // Low foreground office shapes give depth without covering play.
-    office.fillStyle(0xdabf91, 0.95);
-    office.fillRoundedRect(190, 706, 182, 44, 14);
-    office.fillStyle(0x48535d, 0.38);
-    office.fillRoundedRect(222, 674, 42, 40, 13);
-    office.fillRoundedRect(302, 674, 42, 40, 13);
-    office.fillStyle(0xd6dbdf, 0.88);
-    office.fillRoundedRect(206, 596, 144, 58, 11);
-    office.fillStyle(0xc1c9cf, 0.96);
-    office.fillRoundedRect(216, 606, 124, 10, 5);
-    office.fillStyle(0xdabf91, 0.9);
-    office.fillRoundedRect(202, 642, 152, 18, 9);
-
+    // Muted cubicles, desks, chairs, monitors, cooler, plants, poster, and cabinet.
+    office.fillStyle(0xd8c8b4, 1);
+    office.fillRoundedRect(214, 330, 138, 82, 8);
+    office.fillRoundedRect(20, 370, 118, 76, 8);
+    office.fillStyle(0xbfae9c, 1);
+    office.fillRoundedRect(224, 394, 118, 16, 8);
+    office.fillRoundedRect(28, 434, 104, 14, 7);
+    office.fillStyle(0x3f4f60, 0.75);
+    office.fillRoundedRect(248, 350, 38, 24, 4);
+    office.fillRoundedRect(58, 391, 34, 22, 4);
+    office.fillStyle(0x68798b, 0.7);
+    office.fillRoundedRect(292, 376, 42, 44, 12);
+    office.fillRoundedRect(96, 414, 38, 42, 12);
+    office.fillStyle(0xaed8e6, 1);
+    office.fillRoundedRect(22, 282, 32, 72, 10);
+    office.fillStyle(0xf6fbff, 0.92);
+    office.fillCircle(38, 292, 16);
+    office.fillStyle(0x88b58f, 1);
+    office.fillRoundedRect(322, 285, 10, 38, 5);
+    office.fillCircle(314, 291, 13);
+    office.fillCircle(337, 287, 12);
+    office.fillStyle(0xd16f5e, 1);
+    office.fillRoundedRect(72, 288, 74, 50, 6);
+    office.fillStyle(0xfff5dc, 1);
+    office.fillRoundedRect(78, 294, 62, 38, 4);
+    office.fillStyle(0x1a0a2e, 0.6);
+    office.fillRect(88, 307, 42, 4);
+    office.fillRect(94, 318, 30, 4);
+    office.fillStyle(0x9daeb9, 1);
+    office.fillRoundedRect(302, 456, 56, 112, 8);
+    office.lineStyle(2, 0x7f909b, 0.8);
+    office.lineBetween(302, 492, 358, 492);
+    office.lineBetween(302, 530, 358, 530);
+    office.fillStyle(0x71818c, 0.8);
+    office.fillRoundedRect(326, 474, 10, 3, 2);
+    office.fillRoundedRect(326, 512, 10, 3, 2);
+    office.fillRoundedRect(326, 550, 10, 3, 2);
     this.officeLayer.add(office);
   }
 
   private drawPlayerDesk() {
     const deskBack = this.add.graphics();
-    deskBack.fillStyle(0x000000, 0.12);
-    deskBack.fillEllipse(78, 750, 166, 28);
-    deskBack.fillStyle(0xd39156, 1);
-    deskBack.fillRoundedRect(0, 566, 162, 124, 18);
-    deskBack.fillStyle(0xab673f, 1);
-    deskBack.fillRoundedRect(0, 566, 170, 23, 12);
-    deskBack.fillStyle(0x2d3a4a, 1);
-    deskBack.fillRoundedRect(48, 572, 58, 38, 6);
-    deskBack.fillStyle(0x9dd8ea, 1);
-    deskBack.fillRoundedRect(55, 579, 44, 24, 4);
-    deskBack.fillStyle(0x2d3a4a, 1);
-    deskBack.fillRoundedRect(70, 610, 16, 8, 3);
-    deskBack.fillStyle(0xf0d1b5, 1);
-    deskBack.fillRoundedRect(40, 621, 68, 13, 6);
-    deskBack.fillStyle(0xfff1d6, 1);
-    deskBack.fillRoundedRect(116, 594, 20, 26, 6);
-    deskBack.fillStyle(0x8c5334, 0.28);
-    deskBack.fillRoundedRect(119, 599, 25, 12, 6);
-    deskBack.fillStyle(0xfff9ee, 1);
-    deskBack.fillRoundedRect(20, 598, 46, 28, 5);
-    deskBack.fillRoundedRect(34, 606, 48, 28, 5);
-    deskBack.fillStyle(0xb7c1c8, 1);
-    deskBack.fillRect(27, 607, 28, 3);
-    deskBack.fillRect(41, 616, 30, 3);
+    deskBack.fillStyle(0xbd7a4a, 1);
+    deskBack.fillRoundedRect(0, 566, 150, 116, 12);
+    deskBack.fillStyle(0x965835, 1);
+    deskBack.fillRoundedRect(0, 566, 158, 20, 10);
+    deskBack.fillStyle(0xfff2d3, 1);
+    deskBack.fillRoundedRect(114, 594, 18, 24, 5);
+    deskBack.fillStyle(0x1a0a2e, 0.18);
+    deskBack.fillRoundedRect(116, 598, 24, 12, 6);
+    deskBack.fillStyle(0xf5f0e8, 1);
+    deskBack.fillRoundedRect(24, 596, 44, 26, 4);
+    deskBack.fillRoundedRect(36, 602, 44, 26, 4);
+    deskBack.fillStyle(0x253348, 1);
+    deskBack.fillRoundedRect(52, 574, 48, 32, 5);
+    deskBack.fillStyle(0x8bd0e6, 1);
+    deskBack.fillRoundedRect(57, 579, 38, 22, 3);
+    deskBack.fillStyle(0x253348, 1);
+    deskBack.fillRoundedRect(68, 606, 16, 8, 3);
+    deskBack.fillStyle(0xf1d6bb, 1);
+    deskBack.fillRoundedRect(44, 618, 64, 12, 5);
 
     this.playerTorso = this.add.graphics();
     this.playerEyes = this.add.graphics();
     this.drawPlayer(0);
 
     const deskFront = this.add.graphics();
-    deskFront.fillStyle(0xe29b60, 1);
-    deskFront.fillRoundedRect(0, 628, 170, 128, 18);
-    deskFront.fillStyle(0xb66f45, 0.34);
-    deskFront.fillRoundedRect(18, 656, 48, 72, 9);
-    deskFront.fillRoundedRect(88, 656, 48, 72, 9);
-    deskFront.fillStyle(0xffc37e, 0.28);
-    deskFront.fillRoundedRect(12, 638, 138, 8, 4);
+    deskFront.fillStyle(0xd58b54, 1);
+    deskFront.fillRoundedRect(0, 628, 164, 126, 16);
+    deskFront.fillStyle(0xa8643e, 0.32);
+    deskFront.fillRoundedRect(18, 654, 44, 70, 8);
+    deskFront.fillRoundedRect(82, 654, 44, 70, 8);
   }
 
   private drawPlayer(recoil: number) {
     this.playerTorso.clear();
     this.playerEyes.clear();
     const recoilX = -recoil;
-    this.playerTorso.fillStyle(0x000000, 0.12);
-    this.playerTorso.fillEllipse(78 + recoilX, PLAYER_Y + 36, 78, 22);
-    this.playerTorso.fillStyle(0x5a4fcf, 1);
-    this.playerTorso.fillRoundedRect(39 + recoilX, PLAYER_Y - 18, 76, 66, 22);
-    this.playerTorso.fillStyle(0x4439a5, 1);
-    this.playerTorso.fillRoundedRect(50 + recoilX, PLAYER_Y + 8, 54, 38, 16);
-    this.playerTorso.fillStyle(0xf1b28f, 1);
-    this.playerTorso.fillCircle(77 + recoilX, PLAYER_Y - 58, 32);
-    this.playerTorso.fillStyle(0x3f241e, 1);
-    this.playerTorso.fillCircle(58 + recoilX, PLAYER_Y - 77, 14);
-    this.playerTorso.fillCircle(76 + recoilX, PLAYER_Y - 84, 16);
-    this.playerTorso.fillCircle(94 + recoilX, PLAYER_Y - 76, 15);
+    this.playerTorso.fillStyle(0x5446a8, 1);
+    this.playerTorso.fillRoundedRect(42 + recoilX, PLAYER_Y - 18, 70, 62, 20);
+    this.playerTorso.fillStyle(0xf2b28c, 1);
+    this.playerTorso.fillCircle(76 + recoilX, PLAYER_Y - 58, 31);
+    this.playerTorso.fillStyle(0x4b2a24, 1);
+    this.playerTorso.fillCircle(61 + recoilX, PLAYER_Y - 75, 13);
+    this.playerTorso.fillCircle(89 + recoilX, PLAYER_Y - 76, 15);
     this.playerEyes.fillStyle(0xffffff, 1);
-    this.playerEyes.fillCircle(65 + recoilX, PLAYER_Y - 60, 8);
-    this.playerEyes.fillCircle(88 + recoilX, PLAYER_Y - 60, 8);
+    this.playerEyes.fillCircle(65 + recoilX, PLAYER_Y - 60, 7);
+    this.playerEyes.fillCircle(86 + recoilX, PLAYER_Y - 60, 7);
     this.playerEyes.fillStyle(0x1a0a2e, 1);
-    this.playerEyes.fillCircle(69 + recoilX, PLAYER_Y - 59, 3.5);
-    this.playerEyes.fillCircle(92 + recoilX, PLAYER_Y - 59, 3.5);
-    this.playerEyes.lineStyle(3, 0x3f241e, 1);
-    this.playerEyes.lineBetween(58 + recoilX, PLAYER_Y - 72, 72 + recoilX, PLAYER_Y - 68);
-    this.playerEyes.lineBetween(82 + recoilX, PLAYER_Y - 68, 98 + recoilX, PLAYER_Y - 72);
+    this.playerEyes.fillCircle(68 + recoilX, PLAYER_Y - 59, 3);
+    this.playerEyes.fillCircle(89 + recoilX, PLAYER_Y - 59, 3);
   }
 
   private createUi() {
     const cardStyle: Phaser.Types.GameObjects.Text.TextStyle = {
-      fontSize: '18px',
-      fontStyle: '900',
+      fontSize: '16px',
+      fontStyle: '800',
       color: '#1A0A2E',
     };
-    this.drawUiCard(12, 16, 100, 50, 'SCORE');
-    this.drawUiCard(145, 16, 100, 50, 'MISSES');
-    this.drawUiCard(278, 16, 100, 50, 'STREAK');
-    this.scoreText = this.add.text(62, 42, '', cardStyle).setOrigin(0.5);
-    this.missesText = this.add.text(195, 42, '', cardStyle).setOrigin(0.5);
-    this.streakText = this.add.text(328, 42, '', cardStyle).setOrigin(0.5);
-    this.add.text(GAME_WIDTH / 2, 98, 'LICK IT', {
-      fontSize: '42px',
+    this.drawUiCard(14, 18, 96, 46, 'SCORE');
+    this.drawUiCard(147, 18, 96, 46, 'MISSES');
+    this.drawUiCard(280, 18, 96, 46, 'STREAK');
+    this.scoreText = this.add.text(62, 40, '', cardStyle).setOrigin(0.5);
+    this.missesText = this.add.text(195, 40, '', cardStyle).setOrigin(0.5);
+    this.streakText = this.add.text(328, 40, '', cardStyle).setOrigin(0.5);
+    this.add.text(GAME_WIDTH / 2, 96, 'LICK IT', {
+      fontSize: '38px',
       fontStyle: '900',
       color: '#1A0A2E',
       stroke: '#FFFFFF',
-      strokeThickness: 7,
-      shadow: { offsetX: 0, offsetY: 4, color: '#000000', blur: 0, fill: true },
+      strokeThickness: 5,
     }).setOrigin(0.5);
     this.judgmentText = this.add.text(GAME_WIDTH / 2, 158, '', {
-      fontSize: '48px',
+      fontSize: '46px',
       fontStyle: '900',
       color: '#FF4D4D',
       stroke: '#FFFFFF',
-      strokeThickness: 8,
+      strokeThickness: 7,
     }).setOrigin(0.5).setAlpha(0);
     this.hintText = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 54, 'Tap, click, or press Space when the walk lines up', {
       fontSize: '15px',
-      fontStyle: '800',
+      fontStyle: '700',
       color: '#1A0A2E',
       align: 'center',
       wordWrap: { width: 330 },
-    }).setOrigin(0.5).setAlpha(0.76);
+    }).setOrigin(0.5).setAlpha(0.72);
     this.updateUi();
   }
 
   private drawUiCard(x: number, y: number, width: number, height: number, label: string) {
     const g = this.add.graphics();
-    g.fillStyle(0x000000, 0.12);
-    g.fillRoundedRect(x + 3, y + 5, width, height, 16);
-    g.fillStyle(0xffffff, 0.94);
-    g.fillRoundedRect(x, y, width, height, 16);
-    g.lineStyle(3, 0xffc7a0, 0.95);
-    g.strokeRoundedRect(x, y, width, height, 16);
-    g.fillStyle(0xffefe4, 0.95);
-    g.fillRoundedRect(x + 6, y + 6, width - 12, 15, 8);
-    this.add.text(x + width / 2, y + 13, label, {
+    g.fillStyle(0xffffff, 0.88);
+    g.fillRoundedRect(x, y, width, height, 14);
+    g.lineStyle(2, 0xffc9a8, 0.95);
+    g.strokeRoundedRect(x, y, width, height, 14);
+    this.add.text(x + width / 2, y + 10, label, {
       fontSize: '9px',
       fontStyle: '900',
       color: '#B76D54',
@@ -422,34 +351,26 @@ export class GameScene extends Phaser.Scene {
   private drawTongue() {
     if (!this.tongue) return;
     const points = [TONGUE_ORIGIN, ...this.tongue.path];
+    const wobble = Math.sin(this.tongue.age * 36) * 3.5;
     this.tongue.line.clear();
+    this.tongue.line.lineStyle(18, 0xd93045, 0.26);
+    this.tongue.line.beginPath();
+    this.tongue.line.moveTo(TONGUE_ORIGIN.x - 2, TONGUE_ORIGIN.y + 2);
+    for (const point of points) this.tongue.line.lineTo(point.x, point.y + wobble * 0.25);
+    this.tongue.line.strokePath();
 
-    // Soft shadow/elastic body with a chunky base and tapered, glossy tip.
-    this.tongue.line.fillStyle(0xb9273c, 0.24);
-    this.tongue.line.fillCircle(TONGUE_ORIGIN.x - 4, TONGUE_ORIGIN.y + 4, 18);
     points.forEach((point, index) => {
       const t = index / Math.max(points.length - 1, 1);
-      const radius = Phaser.Math.Linear(16, 5.5, t);
-      const wobble = Math.sin(index * 1.1 + this.tongue!.age * 30) * (1 - t) * 4;
+      const radius = Phaser.Math.Linear(14, 6, t);
+      const offsetY = Math.sin(index * 0.95 + this.tongue!.age * 28) * (1 - t) * 2.4;
       this.tongue!.line.fillStyle(0xff4d4d, 1);
-      this.tongue!.line.fillCircle(point.x, point.y + wobble, radius);
-      this.tongue!.line.fillStyle(0xff8a80, 0.42);
-      this.tongue!.line.fillCircle(point.x - radius * 0.25, point.y + wobble - radius * 0.25, radius * 0.38);
+      this.tongue!.line.fillCircle(point.x, point.y + offsetY, radius);
+      this.tongue!.line.fillStyle(0xff8a80, 0.45);
+      this.tongue!.line.fillCircle(point.x - radius * 0.22, point.y + offsetY - radius * 0.22, radius * 0.38);
     });
 
-    this.tongue.line.lineStyle(5, 0xffb0a8, 0.42);
-    this.tongue.line.beginPath();
-    this.tongue.line.moveTo(TONGUE_ORIGIN.x, TONGUE_ORIGIN.y - 3);
-    for (let i = 1; i < points.length; i += 1) {
-      const point = points[i];
-      const wobble = Math.sin(i * 1.1 + this.tongue.age * 30) * 1.8;
-      this.tongue.line.lineTo(point.x, point.y - 3 + wobble);
-    }
-    this.tongue.line.strokePath();
     this.tongue.line.fillStyle(0xff6b6b, 1);
-    this.tongue.line.fillEllipse(this.tongue.tip.x, this.tongue.tip.y, 20, 14);
-    this.tongue.line.fillStyle(0xffc1b8, 0.55);
-    this.tongue.line.fillEllipse(this.tongue.tip.x - 4, this.tongue.tip.y - 3, 7, 4);
+    this.tongue.line.fillEllipse(this.tongue.tip.x, this.tongue.tip.y, 18, 13);
   }
 
   private checkTipCollision() {
@@ -467,33 +388,29 @@ export class GameScene extends Phaser.Scene {
   private drawTargetSilhouette(target: TargetState) {
     const g = target.visual;
     const step = target.walkTime;
-    const legSwing = Math.sin(step) * 17 * target.stride;
-    const backLegSwing = Math.sin(step + Math.PI) * 14 * target.stride;
-    const armSwing = Math.sin(step + Math.PI) * 9;
-    const hipShift = Math.sin(step * 2) * 3;
-    const shoulderTilt = Math.sin(step) * 3;
+    const legSwing = Math.sin(step) * 15 * target.stride;
+    const armSwing = Math.sin(step + Math.PI) * 8;
+    const hipShift = Math.sin(step * 2) * 2;
+    const shoulderTilt = Math.sin(step) * 2.5;
     const x = target.x;
     const y = target.y;
 
     g.clear();
-    g.fillStyle(0x000000, 0.16);
-    g.fillEllipse(x, y + 76, 72, 13);
-    g.fillStyle(0x12061f, 1);
-    g.lineStyle(11, 0x12061f, 1);
-    g.lineBetween(x - 10 + hipShift, y + 30, x - 23 + legSwing, y + 70);
-    g.lineBetween(x + 11 + hipShift, y + 30, x + 23 + backLegSwing, y + 70);
-    g.lineStyle(7, 0x12061f, 1);
-    g.lineBetween(x - 14, y - 13 + shoulderTilt, x - 26 + armSwing, y + 25);
-    g.lineBetween(x + 14, y - 13 - shoulderTilt, x + 26 - armSwing, y + 25);
-    g.fillEllipse(x, y - 50, 28, 33);
-    g.fillEllipse(x + 1, y - 8, 34, 68);
-    g.fillEllipse(x - 13 + hipShift, y + 23, 25, 39);
-    g.fillEllipse(x + 14 + hipShift, y + 23, 25, 39);
-    g.fillEllipse(x - 9, y - 24, 17, 22);
-    g.fillEllipse(x + 10, y - 24, 17, 22);
-    g.fillStyle(0x08030e, 1);
-    g.fillEllipse(x - 23 + legSwing, y + 72, 24, 9);
-    g.fillEllipse(x + 23 + backLegSwing, y + 72, 24, 9);
+    g.fillStyle(0x1a0a2e, 1);
+    g.lineStyle(10, 0x1a0a2e, 1);
+    g.lineBetween(x - 9 + hipShift, y + 28, x - 21 + legSwing, y + 68);
+    g.lineBetween(x + 8 + hipShift, y + 28, x + 18 - legSwing, y + 68);
+    g.lineStyle(7, 0x1a0a2e, 1);
+    g.lineBetween(x - 13, y - 11 + shoulderTilt, x - 24 + armSwing, y + 26);
+    g.lineBetween(x + 13, y - 11 - shoulderTilt, x + 24 - armSwing, y + 26);
+    g.fillEllipse(x, y - 47, 30, 32);
+    g.fillEllipse(x, y - 5, 38, 72);
+    g.fillEllipse(x - 12 + hipShift, y + 23, 22, 36);
+    g.fillEllipse(x + 12 + hipShift, y + 23, 22, 36);
+    g.fillEllipse(x, y - 31, 18, 16);
+    g.fillStyle(0x0f061b, 1);
+    g.fillEllipse(x - 21 + legSwing, y + 70, 22, 9);
+    g.fillEllipse(x + 18 - legSwing, y + 70, 22, 9);
   }
 
   private resolveShot(judgment: Judgment) {
